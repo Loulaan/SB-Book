@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--     ================ IMPORT CONFIGURATION DEFINITIONS ===================-->
+    <import resource="db-configuration.xml"/>
+    <import resource="service-configuration.xml"/>
+    <import resource="properties-configuration.xml"/>
+    <import resource="utils-configuration.xml"/>
+
+
+    <mvc:annotation-driven validator="validator"/>
+    <context:component-scan base-package="com.hronosf.repository"/>
+
+    <bean class="com.hronosf.rest.TestController" id="controller"/>
+
+    <bean class="com.hronosf.exception.GlobalExceptionHandler" id="exceptionHandler">
+        <constructor-arg ref="exceptionHandlerFactory"/>
+    </bean>
+
+
+    <bean class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" id="validator">
+
+    </bean>
+
+
+    <bean class="com.hronosf.converter.impl.ExceptionHandlerFactoryImpl" id="exceptionHandlerFactory">
+        <constructor-arg ref="apiErrors"/>
+    </bean>
+</beans>

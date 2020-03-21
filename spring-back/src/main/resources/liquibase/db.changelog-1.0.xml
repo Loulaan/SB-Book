@@ -1,0 +1,224 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="hronosf@gmail.com" labels="CreateTables">
+
+        <createTable tableName="timestamps">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="created_timestamp" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated_timestamp" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="deleted_timestamp" type="TIMESTAMP" defaultValue="NULL">
+                <constraints nullable="true"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="person">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="user_name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="is_activated" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="account_status" type="VARCHAR(255)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="last_login" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="person_details">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="person_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="middle_name" type="VARCHAR(100)" defaultValue="">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="phone_number" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="verification_tokens">
+
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+
+            <column name="token" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="expiration_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="token_status" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="token_target" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="roles">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="persons_to_roles">
+            <column name="person_id" type="BIGINT"/>
+            <column name="role_id" type="BIGINT"/>
+        </createTable>
+
+        <rollback>
+            <sql>
+                DROP TABLE IF EXIST person_details;
+                DROP TABLE IF EXIST roles;
+                DROP TABLE IF EXIST timing;
+                DROP TABLE IF EXIST persons_to_roles;
+            </sql>
+        </rollback>
+
+    </changeSet>
+
+
+    <changeSet id="1.0.1" author="hronosf@gmail.com" labels="CreateForeignKeys">
+
+        <addForeignKeyConstraint baseTableName="verification_tokens"
+                                 baseColumnNames="id"
+                                 constraintName="fk_verification_tokens_to_person"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="person"
+                                 baseColumnNames="id"
+                                 constraintName="fk_person_to_timestamps"
+                                 referencedTableName="timestamps"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="roles"
+                                 baseColumnNames="id"
+                                 constraintName="fk_roles_to_timestamps"
+                                 referencedTableName="timestamps"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="person_details"
+                                 baseColumnNames="id"
+                                 constraintName="fk_person_details_to_timestamps"
+                                 referencedTableName="timestamps"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="person_details"
+                                 baseColumnNames="person_id"
+                                 constraintName="fk_person_details_to_person"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="persons_to_roles"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_person_to_roles_to_roles"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="persons_to_roles"
+                                 baseColumnNames="person_id"
+                                 constraintName="fk_person_to_roles_to_credentials"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+
+
+    <changeSet id="1.0.2" author="hronosf@gmail.com" labels="insertBaseRoles">
+
+        <insert tableName="timestamps">
+            <column name="id" value="1"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="id" value="1"/>
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+
+        <insert tableName="timestamps">
+            <column name="id" value="2"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="id" value="2"/>
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--     ================ PROPERTIES DEFINITION ===================-->
+    <util:properties id="dbProperties" location="classpath:properties/db.properties"/>
+    <util:properties id="apiErrorsProperties" location="classpath:properties/api-errors.properties"/>
+    <util:properties id="apiValidationProperties" location="classpath:properties/api-validation-errors.properties"/>
+    <util:properties id="verificationTokenProperties" location="classpath:properties/verification-token.properties"/>
+    <util:properties id="jwtTokenProperties" location="classpath:properties/jwt-token.properties"/>
+
+    <!--     ================ ALL PROPERTIES BEANS DEFINITION ===================-->
+    <bean id="allProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="propertiesArray">
+            <list>
+                <ref bean="dbProperties"/>
+                <ref bean="apiErrorsProperties"/>
+                <ref bean="verificationTokenProperties"/>
+                <ref bean="jwtTokenProperties"/>
+                <ref bean="apiValidationProperties"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="apiErrors" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>properties.api-errors</value>
+                <value>properties.api-validation-errors</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="allProperties"/>
+    </bean>
+</beans>
+
+

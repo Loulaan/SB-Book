@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!--     ================ ANNOTATION-CONFIGURATION ===================-->
+    <tx:annotation-driven/>
+    <jpa:repositories base-package="com.hronosf.repository"/>
+
+    <!--     ================ SERVICES BEANS DEFINITION ===================-->
+    <bean class="com.hronosf.service.impl.PersonDetailsServiceImpl" id="personDetailsService">
+        <constructor-arg ref="personDetailsRepository"/>
+    </bean>
+
+    <bean class="com.hronosf.service.impl.PersonServiceImpl" id="personService">
+        <constructor-arg ref="personRepository"/>
+        <constructor-arg ref="roleRepository"/>
+        <constructor-arg ref="passwordEncoder"/>
+        <property name="defaultRoleName" value="ROLE_USER"/>
+    </bean>
+
+    <bean class="com.hronosf.service.impl.AccountServiceImpl" id="accountService">
+        <constructor-arg ref="personService"/>
+        <constructor-arg ref="personDetailsService"/>
+        <constructor-arg ref="securityTokensService"/>
+        <constructor-arg ref="jwtTokenService"/>
+    </bean>
+
+    <!--     ================ SECURITY-SERVICES BEANS DEFINITION ===================-->
+    <bean class="com.hronosf.security.service.impl.SecurityTokensServiceImpl" id="securityTokensService">
+        <constructor-arg ref="tokenRepository"/>
+        <property name="expirationPeriodSec" value="${token.expirationPeriodSec}"/>
+        <property name="tokenLength" value="${token.tokenLength}"/>
+    </bean>
+
+    <bean class="com.hronosf.security.jwt.service.impl.JwtPersonDetailsService" id="jwtPersonDetailsService">
+        <constructor-arg ref="personService"/>
+    </bean>
+
+    <bean class="com.hronosf.security.jwt.service.impl.JwtTokenServiceImpl" id="jwtTokenService">
+        <constructor-arg ref="jwtPersonDetailsService"/>
+        <property name="jwtHeader" value="${jwt-token.requestHeader}"/>
+        <property name="secretWordToken" value="${jwt-token.secret}"/>
+        <property name="secretWordRefreshToken" value="${jwt-token.refresh.secret}"/>
+        <property name="tokenExpirationPeriodSec" value="${jwt-token.expirationPeriodSec}"/>
+        <property name="refreshTokenExpirationPeriodSec" value="${jwt-token.refresh.expirationPeriodSec}"/>
+    </bean>
+</beans>
