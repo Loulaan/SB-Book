@@ -14,6 +14,7 @@ import { CartComponent } from './cart/cart.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { BookComponent } from './book/book.component';
 import { CartIconComponent } from './cart-icon/cart-icon.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CartIconComponent } from './cart-icon/cart-icon.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

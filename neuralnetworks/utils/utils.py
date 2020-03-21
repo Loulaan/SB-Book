@@ -1,5 +1,8 @@
 import warnings
 from collections import Counter
+import re
+from datetime import datetime
+
 
 from deeppavlov import build_model, configs
 from nltk.tokenize import word_tokenize
@@ -11,30 +14,36 @@ import pymorphy2
 
 warnings.filterwarnings("ignore")
 morph = pymorphy2.MorphAnalyzer()
-path = 'books/BednayaLizaDemo.txt'
+PATH = 'books/NadPropastyuVoRzhi.txt'
+PATHSUMM = 'books/summDemo.txt'
+# path = 'books/Demo.txt'
 
 
 def tokenize_text(text):
     return word_tokenize(text)
 
 
+def throw_O_class(df):
+    return df[df["Classes"] != 'O']
+
+
 def bounding_classes(df):
     """
-    Объединяет смкежные классы.
+    Объединяет смежные классы.
     На вход: dataframe, полученный в результате работы сети. Состоит из 2х столбцов.
     В 0 содержатся слова или символы - "Words". В 1 теги - "Classes'.
-    На выход: Очищенные от B-LOC, B-PER, B-ORG и O тегов.
+    На выход: Очищенные от B-LOC, B-PER, B-ORG.
     """
-    df_cleaned = df[df["Classes"] != 'O']
+
     tags_b = ['I-PER', 'I-LOC', 'I-ORG']
-    for i in range(len(df_cleaned)):
-        text, tag = df_cleaned.iloc[i]
+    for i in range(len(df)):
+        text, tag = df.iloc[i]
         if tag in tags_b:
-            df_cleaned.iloc[ii][0] += ' ' + text
+            df.iloc[ii][0] += ' ' + text
         else:
             ii = i
-    df_cleaned = df_cleaned[df_cleaned["Classes"] != 'I-PER'][df_cleaned["Classes"] != 'I-LOC'][df_cleaned["Classes"] != 'I-ORG'].reindex()
-    return df_cleaned
+    df = df[df["Classes"] != 'I-PER'][df["Classes"] != 'I-LOC'][df["Classes"] != 'I-ORG'].reindex()
+    return df
 
 
 def lemmanization(df):
@@ -59,13 +68,24 @@ def get_top_names_and_locations(df):
     list_of_top.append([pair[0] for pair in statistic_dict])
 
     df_related2cls = df[df['Classes'] == "B-LOC"]
-    statistic_dict = Counter(df_related2cls['Words']).most_common(5)
-    list_of_top.append([pair[0] for pair in statistic_dict])
 
+    legal_entity = 0
+    top_places = []
+    statistic_dict = Counter(df_related2cls['Words']).most_common(40)
+    keys = [x[0] for x in statistic_dict]
+    for key in keys:
+        if legal_entity < 5:
+            if key == '—':
+                continue
+            top_places.append(key)
+            legal_entity += 1
+        else:
+            break
+    list_of_top.append(top_places)
     return list_of_top
 
 
-def summarizer(path=path):
+def summarizer(text):
     """
     input: text (str)
     ratio: Number between 0 and 1 that determines the proportion of the number of sentences of the original text to be chosen for the summary.
@@ -73,9 +93,7 @@ def summarizer(path=path):
     output: str or list
     """
 
-    with open(path, 'r', encoding='utf-8') as textfile:
-        summary = summarize(textfile.read(), ratio=0.2, split=False)
-    return summary
+    return summarize(text, word_count=400, split=False)
 
 
 def create_dataframe(preds):
@@ -94,6 +112,11 @@ def save_dataframe(df, path='books/NER/NER_BednayaLizaDemo.csv'):
     """
 
     df.to_csv(path, index=False, encoding='utf-8')
+
+
+def save_summary(text):
+    with open('books/summDemo.txt', 'w', encoding='utf-8') as file:
+        file.write(text)
 
 
 def buildmodel(model_name):
@@ -121,12 +144,23 @@ def get_all_statistics(model_name="NER"):
 
     model = buildmodel(model_name)
     statistics = []
-
-    with open(path, encoding='utf-8') as file:
+    df = pd.DataFrame()
+    start_time = datetime.now()
+    with open(PATH, encoding='utf-8') as file:
         text = file.read()
-        preds = model([tokenize_text(text)])
-        df = lemmanization(bounding_classes(create_dataframe(preds)))
+        split_regex = re.compile(r'[.|!|?|…]')
+        sentences = filter(lambda t: t, [t.strip() for t in split_regex.split(text)])
+        for s in sentences:
+            preds = model([tokenize_text(s)])
+            df = pd.concat([df, lemmanization(throw_O_class(create_dataframe(preds)))], ignore_index=True)
+        print(datetime.now() - start_time, " : Обработка предложений (Лемманизация и избавление от О).")
+        df = bounding_classes(df)
+        print(datetime.now() - start_time, " : Обработка датафрейма (Объединение классов).")
         statistics.append(get_top_names_and_locations(df))
         statistics.append(summarizer(text))
+        print(datetime.now() - start_time, " : Генерация summary.")
+        save_summary(statistics[-1])
+        print("Statistic[0][0]:\n", statistics[0][0])
+        print("\n\nStatistic[0][1]:\n", statistics[0][1])
 
     return statistics

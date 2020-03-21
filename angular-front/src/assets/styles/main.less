@@ -18,5 +18,22 @@ body {
     color: @White;
   }
 }
-.main_wrapper{
+.main_patch-left {
+  background-color: @White;
+  position: absolute;
+  z-index: -1;
+  height: 102vh;
+  width: 100%;
+  clip-path: polygon(0 0, 100% 0, 100% 44%, 0 100%);
+}
+.blue {
+  background-color: dodgerblue!important;
+}
+.main_patch-right {
+  background-color: @White;
+  height: 70vh;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 60%);
 }
