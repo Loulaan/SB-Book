@@ -1,16 +1,19 @@
 package controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping(value = "api/v1/search/")
@@ -18,17 +21,13 @@ public class SmartSearchController {
 
     @PostMapping("/smart_search")
     public String redirectToFlaskMicroservice(@RequestBody String query) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
-
-        okhttp3.RequestBody body = okhttp3.RequestBody.create(MediaType.parse("application/json; charset=utf-8")
-                , new ObjectMapper().writeValueAsString(query));
-        Request request = new Request.Builder()
-                .url("http://localhost:5000/smart_search")
-                .post(body)
-                .build();
-
-        Response response = client.newCall(request).execute();
-        return response.body().string();
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost request = new HttpPost("http://localhost:5000/smart_search");
+        StringEntity params = new StringEntity(query, StandardCharsets.UTF_8);
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
+        HttpEntity entity = response.getEntity();
+        return EntityUtils.toString(entity);
     }
 }
