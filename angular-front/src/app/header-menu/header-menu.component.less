@@ -1,0 +1,41 @@
+@import "../../assets/styles/variables";
+
+.header_menu {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  .cart app-cart-icon{
+    height: 20px;
+    width: 20px;
+    svg path{
+      fill: @White!important;
+    }
+  }
+
+  .white a {
+    color: @White!important;
+  }
+  .black a {
+    color: @DarkFontColor!important;
+  }
+
+  ul {
+    display: flex;
+    justify-content: flex-end;
+    list-style-type: none;
+
+    li {
+      margin-left: 16px;
+      margin-right: 16px;
+
+      a {
+        text-decoration: none;
+        font-size: 17px;
+        line-height: 0.94;
+      }
+    }
+  }
+}

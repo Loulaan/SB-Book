@@ -1,0 +1,11 @@
+<div class="header_menu_wrapper">
+<div class="header_menu">
+<ul [ngClass]="{white: isDarkPage, black: !isDarkPage}">
+  <li *ngIf="showMain" class="main_page_link"><a routerLink="/">Главная</a></li>
+  <li class="sign_up_link"><a routerLink="/sign-up">Зарегистрироваться</a></li>
+  <li class="sign_in_link"><a routerLink="/sign-in">Войти</a></li>
+  <li class="Профиль"><a routerLink="/personal">Профиль</a></li>
+  <li class="cart"><a routerLink="/cart"><app-cart-icon></app-cart-icon></a></li>
+</ul>
+</div>
+</div>
