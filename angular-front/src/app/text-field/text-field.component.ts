@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-text-field',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TextFieldComponent implements OnInit {
 
-  constructor() { }
+  public animated = false;
+  public form: FormGroup;
 
+  constructor() {
+    this.form = new FormGroup({
+      userRequest: new FormControl(''),
+    });
+  }
   ngOnInit() {
+    setTimeout(() => this.animated = true, 1000);
   }
 
+
+ public animation() {
+    this.animated = !this.animated;
+  }
 }
