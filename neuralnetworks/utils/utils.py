@@ -1,7 +1,13 @@
+import warnings
+
 from deeppavlov import build_model, configs
 from nltk.tokenize import word_tokenize
 import numpy as np
 import pandas as pd
+
+
+warnings.filterwarnings("ignore")
+
 
 def tokenize_text(text):
     # text = re.sub("\s\s+", ' ', re.sub('[0-9]', ' ', re.sub('[—–?!)(«»":„“]', '', text)))
@@ -21,7 +27,7 @@ def bounding_classes(df):
             df_cleaned.iloc[ii][0] += ' ' + text
         else:
             ii = i
-    df_cleaned = df_cleaned[df_cleaned["Classes"] != 'I-PER'][df_cleaned["Classes"] != 'I-LOC'][df_cleaned["Classes"] != 'I-ORG']
+    df_cleaned = df_cleaned[df_cleaned["Classes"] != 'I-PER'][df_cleaned["Classes"] != 'I-LOC'][df_cleaned["Classes"] != 'I-ORG'].reindex()
     return df_cleaned
 
 def create_dataframe(preds):
