@@ -20,6 +20,7 @@
   color: @White;
   text-align: left;
   margin-left: 42px;
+  margin-bottom: 150px;
 }
 
 .main_title {
@@ -28,85 +29,31 @@
 
 .textarea_container {
   padding-top: 100px;
-  margin-left: auto;
+  position: absolute;
+}
+.match_form {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .intellectual-search-container {
   display: flex;
 }
 
-
 .traditional_flow-wrapper {
   margin-top: 80px;
   .traditional_flow-header {
     margin: 0 auto;
     height: 100px;
-    width: 1000px;
+    max-width: 1000px;
     h1 {
       color: @DarkFontColor;
       text-align: center;
     }
 
   }
-
-  .categories_wrapper {
-    margin: 50px 30px 150px 30px;
-  }
-
-  .categories_flex_wrapper {
-
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .single-category_wrapper {
-    min-height: 350px;
-    width: 220px;
-    background-color: @White;
-    border-radius: 5px;
-    border: 2px solid lightgray;
-  }
-
-  .book_image {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  .book_info_wrapper {
-    margin: 20px 30px;
-
-    .book_name{
-      color: @DarkFontColor;
-      font-size: 25px;
-    }
-
-    .book_author {
-      margin-top: 10px;
-      color: darkgray;
-    }
-
-  }
-
-  .book_footer {
-    margin: 10px 30px;
-    display: flex;
-    justify-content: space-between;
-
-    .book_price {
-      font-size: 40px;
-    }
-
-    .buy_book {
-      background-color: @Blue;
-      color: @White;
-      width: 70px;
-      border-radius: 7px;
-      outline: none;
-    }
-  }
-
-
 
   .category_name {
     font-size: 20px;

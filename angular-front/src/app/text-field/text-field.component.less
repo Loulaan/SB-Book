@@ -1,12 +1,26 @@
+@import '../../assets/styles/variables';
+
 .textarea {
   height: 370px;
-  width: 400px;
-  padding: 30px;
+  width: 0;
+  padding:30px 0 30px 0;
   resize: none;
   border-radius: 5px;
   outline: none;
+  transition: 400ms;
 }
 
+.open {
+  width: 400px;
+  padding: 30px;
+  transition: 400ms;
+}
+
+.open_label {
+  right: 440px!important;
+  transition: 400ms;
+
+}
 .label {
   position: absolute;
   width: 50px;
@@ -15,9 +29,25 @@
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   cursor: pointer;
-  right: 440px;
+  right: 0;
+  transition: 400ms;
+
  h5 {
    transform: rotate(90deg);
    left: 10px;
  }
 }
+.textarea_inner .button_in_textarea {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  height: 40px;
+  width: 100px;
+}
+
+.button_in_textarea {
+  background-color: @Blue;
+  color: @White;
+  border-radius: 5px;
+}
+

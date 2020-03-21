@@ -1,5 +1,6 @@
 
 body {
+
   color: @DarkFontColor;
   background-color: @Wrapper;
   margin: 0;
@@ -16,6 +17,10 @@ body {
   }
   h5{
     color: @White;
+  }
+
+  button {
+    outline: none;
   }
 }
 .main_patch-left {
@@ -36,4 +41,11 @@ body {
   z-index: -1;
   width: 100%;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 60%);
+}
+.main_patch-center {
+  height: 100vh;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  clip-path:polygon(0 0, 143% 0, 50% 99%, 0 50%);
 }

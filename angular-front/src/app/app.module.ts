@@ -15,6 +15,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { BookComponent } from './book/book.component';
 import { CartIconComponent } from './cart-icon/cart-icon.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { MatchResultComponent } from './match-result/match-result.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     CartComponent,
     SearchResultComponent,
     BookComponent,
-    CartIconComponent
+    CartIconComponent,
+    MatchResultComponent
   ],
   imports: [
     BrowserModule,
