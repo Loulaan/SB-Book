@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="service.implementation.UserServiceImpl" id="userService">
+        <constructor-arg ref="passwordEncoder"/>
+        <constructor-arg ref="userRepository"/>
+        <constructor-arg ref="roleRepository"/>
+        <constructor-arg ref="exceptionMessagesSource"/>
+    </bean>
+
+    <bean class="service.implementation.RegistrationAuthorizationServiceImpl" id="authService">
+        <constructor-arg ref="userService"/>
+        <constructor-arg ref="authenticationManager"/>
+        <constructor-arg ref="tokenVerificationService"/>
+        <constructor-arg ref="exceptionMessagesSource"/>
+    </bean>
+
+    <bean class="service.implementation.EmailSenderServiceImpl" id="emailSenderService">
+        <constructor-arg ref="mailSenderSettings"/>
+        <property name="subject" value="${spring.mail.service.subject}"/>
+        <property name="verificationEMailText" value="${spring.mail.verification.text}"/>
+        <property name="resetPasswordEmailText" value="${spring.mail.reset.password.text}"/>
+    </bean>
+
+    <bean class="security.service.implementation.TokenVerificationServiceImpl" id="tokenVerificationService">
+        <constructor-arg ref="tokenVerificationRepository"/>
+        <constructor-arg ref="exceptionMessagesSource"/>
+        <property name="lengthVerificationToken" value="${spring.mail.token.len}"/>
+        <property name="expireTimeSec" value="${spring.mail.token.expire}"/>
+    </bean>
+
+    <bean class="security.jwt.service.implementation.JwtTokenServiceImpl" id="jwtTokenProvider">
+        <constructor-arg ref="jwtUserDetailsService"/>
+        <constructor-arg ref="exceptionMessagesSource"/>
+        <property name="secretWord" value="${jwt.token.secret}"/>
+        <property name="expireTimeMs" value="${jwt.token.expire}"/>
+        <property name="secretWordRefresh" value="${jwt.refresh.token.secret}"/>
+        <property name="expireTimeMsRefresh" value="${jwt.refresh.token.expire}"/>
+        <property name="jwtHeaderPrefix" value="${jwt.header.prefix}"/>
+    </bean>
+
+    <bean class="security.jwt.service.implementation.JwtUserDetailsService" id="jwtUserDetailsService">
+        <constructor-arg ref="userService"/>
+    </bean>
+
+    <bean class="exception.ExceptionFactoryHelper" id="exceptionMessagesSource">
+        <constructor-arg ref="messageSource"/>
+    </bean>
+
+    <bean class="service.implementation.AdminServiceImpl" id="adminService">
+        <constructor-arg ref="userService"/>
+    </bean>
+
+</beans>

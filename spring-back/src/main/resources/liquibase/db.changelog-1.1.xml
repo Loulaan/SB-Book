@@ -1,0 +1,30 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="2.0.0" author="hronosf@gmail.com">
+        <sql dbms="mysql">
+            SET FOREIGN_KEY_CHECKS=0;
+        </sql>
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" value="0"/>
+            <column name="user_name" value="system_admin_1"/>
+            <column name="first_name" value="system_admin_1"/>
+            <column name="last_name" value="system_admin_1"/>
+            <column name="email" value="system_admin_1"/>
+            <!-- password:           system_admin_1-->
+            <column name="password" value="$2a$12$VrM8VGvLPgZky8r7V/xFj.PCbiq2Tc8oDVpILwuBdnKv9xwt3yb9u"/>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+        <rollback>DELETE FROM users WHERE user_name="system_admin_1"</rollback>
+    </changeSet>
+</databaseChangeLog>

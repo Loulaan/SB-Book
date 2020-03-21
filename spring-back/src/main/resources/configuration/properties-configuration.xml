@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:properties id="dbProperties" location="classpath:properties/db.properties"/>
+    <util:properties id="jwtProperties" location="classpath:properties/jwt.properties"/>
+    <util:properties id="mailProperties" location="classpath:properties/email.properties"/>
+    <util:properties id="validationErrors" location="classpath:properties/locale/*"/>
+    <bean id="allProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="propertiesArray">
+            <list>
+                <ref bean="dbProperties"/>
+                <ref bean="jwtProperties"/>
+                <ref bean="mailProperties"/>
+                <ref bean="validationErrors"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="properties.locale.apiErrorsENG"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="allProperties"/>
+    </bean>
+
+    <bean class="org.springframework.context.support.ResourceBundleMessageSource"
+          id="messageSourceValidation">
+        <property name="basename" value="properties.locale.validationErrorsENG"/>
+    </bean>
+
+</beans>
