@@ -2,18 +2,22 @@ import warnings
 from collections import Counter
 import re
 from datetime import datetime
-
-
-from deeppavlov import build_model, configs
-from nltk.tokenize import word_tokenize
 import numpy as np
-import pandas as pd
-from gensim.summarization import summarize
-import pymorphy2
+
+
+#from deeppavlov import build_model, configs
+#from nltk.tokenize import word_tokenize
+#import numpy as np
+#import pandas as pd
+#from gensim.summarization import summarize
+#import pymorphy2
+
+from YTranslater import wrapper_translater
+from tags_model import predict
 
 
 warnings.filterwarnings("ignore")
-morph = pymorphy2.MorphAnalyzer()
+#morph = pymorphy2.MorphAnalyzer()
 PATHSUMM = 'books/summDemo.txt'
 # path = 'books/Demo.txt'
 
@@ -94,9 +98,26 @@ def summarizer(text):
 
     return summarize(text, word_count=400, split=False)
 
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r"what's", "what is ", text)
+    text = re.sub(r"\'s", " ", text)
+    text = re.sub(r"\'ve", " have ", text)
+    text = re.sub(r"can't", "can not ", text)
+    text = re.sub(r"n't", " not ", text)
+    text = re.sub(r"i'm", "i am ", text)
+    text = re.sub(r"\'re", " are ", text)
+    text = re.sub(r"\'d", " would ", text)
+    text = re.sub(r"\'ll", " will ", text)
+    text = re.sub(r"\'scuse", " excuse ", text)
+    text = text.strip(' ')
+    return text
 
-def get_genres(text):
-    pass
+def get_genres(text, clf, tfidf):
+    en_text = wrapper_translater(text)
+    processed_en_text = clean_text(en_text)
+    preds = np.array(predict([processed_en_text], clf, tfidf)).squeeze()
+    return preds
 
 
 def create_dataframe(preds):
