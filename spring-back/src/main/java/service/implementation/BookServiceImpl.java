@@ -1,5 +1,6 @@
 package service.implementation;
 
+import dto.payload.response.RandomBooksResponseDTO;
 import exception.ApiException.ApiException;
 import lombok.RequiredArgsConstructor;
 import model.BookUploadWrapper;
@@ -13,6 +14,7 @@ import service.BookService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,25 +29,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> searchBook(String searchOption, String query) {
-        List<Book> bookCollection = null;
-        switch (searchOption) {
-            case "author": {
-                bookCollection = (ArrayList<Book>) booksRepository.findAllByAuthor(query);
-                break;
-            }
-            case "title": {
-                bookCollection = (ArrayList<Book>) booksRepository.findAllByTitle(query);
-                break;
-            }
-            case "publishingHouse": {
-                bookCollection = (ArrayList<Book>) booksRepository.findAllByPublishingHouse(query);
-                break;
-            }
-            default:
-                throw new ApiException();
+    public RandomBooksResponseDTO searchBook(String query) {
+
+        List<Book> bookCollection = (ArrayList<Book>) booksRepository.findByTitle(query);
+
+        if (bookCollection.isEmpty()) {
+            bookCollection = (ArrayList<Book>) booksRepository.findAllByAuthor(query);
         }
-        return bookCollection;
+
+        if (bookCollection.isEmpty()) {
+            bookCollection = (ArrayList<Book>) booksRepository.findAllByPublishingHouse(query);
+        }
+
+        return new RandomBooksResponseDTO(bookCollection);
     }
 
     @Transactional
@@ -59,6 +55,10 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-
-
+    @Override
+    public RandomBooksResponseDTO getAll() {
+        List<Book> books = booksRepository.findAll();
+        Collections.shuffle(books);
+        return new RandomBooksResponseDTO(books.subList(0, 4));
+    }
 }

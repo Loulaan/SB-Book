@@ -1,5 +1,6 @@
 package service;
 
+import dto.payload.response.RandomBooksResponseDTO;
 import model.BookUploadWrapper;
 import model.entity.Book;
 
@@ -10,7 +11,9 @@ public interface BookService {
 
     Book getInformationAboutBook(Long id);
 
-    List<Book> searchBook(String searchOption, String query);
+    RandomBooksResponseDTO searchBook(String query);
 
     void saveBook(BookUploadWrapper request) throws IOException;
+
+    RandomBooksResponseDTO getAll();
 }
