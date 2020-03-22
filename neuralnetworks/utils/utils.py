@@ -96,6 +96,10 @@ def summarizer(text):
     return summarize(text, word_count=400, split=False)
 
 
+def get_genres(text):
+    pass
+
+
 def create_dataframe(preds):
     """
     Creates dataframe from neural networks output
@@ -156,11 +160,14 @@ def get_all_statistics(model_name="NER"):
         print(datetime.now() - start_time, " : Обработка предложений (Лемманизация и избавление от О).")
         df = bounding_classes(df)
         print(datetime.now() - start_time, " : Обработка датафрейма (Объединение классов).")
+        summary = summarizer(text)
+        statistics.append(get_genres(summary))
         statistics.append(get_top_names_and_locations(df))
-        statistics.append(summarizer(text))
+        statistics.append(summary)
         print(datetime.now() - start_time, " : Генерация summary.")
         save_summary(statistics[-1])
-        print("Statistic[0][0]:\n", statistics[0][0])
-        print("\n\nStatistic[0][1]:\n", statistics[0][1])
+        print("Statistic[0][0] - genre:\n", statistics[0][0])
+        print("\n\nStatistic[0][1] - top 5 persons:\n", statistics[0][1])
+        print("\n\nStatistic[0][2] - top 5 places:\n", statistics[0][2])
 
     return statistics
