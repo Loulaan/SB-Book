@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {SmartSearchService} from '../Services/smart-search.service';
+import {SmartMatchInterface} from '../Interfaces/smartMatch.interface';
+import {SmartMatchModel} from '../Interfaces/smartMatch.model';
 
 @Component({
   selector: 'app-match-result',
@@ -6,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./match-result.component.less']
 })
 export class MatchResultComponent implements OnInit {
+  public bookArray: SmartMatchModel[];
 
-  constructor() {
+  constructor(private smartSearchService: SmartSearchService) {
   }
 
   ngOnInit() {
+    this.bookArray = this.smartSearchService.smartResponse;
+    console.log(this.bookArray);
   }
-
 }

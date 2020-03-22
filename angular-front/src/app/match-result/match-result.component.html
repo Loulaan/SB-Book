@@ -14,71 +14,16 @@
       </div>
 
       <div class="categories_flex_wrapper">
-        <div class="single-category_wrapper">
+        <div class="single-category_wrapper" *ngFor="let book of bookArray">
           <div class="book_image">
             <img src="../../assets/images/3.jpg"/>
           </div>
           <div class="book_info_wrapper">
             <div class="book_name">
-              Супер книга
+              {{book._source.title}}
             </div>
             <div class="book_author">
-              Автор А. В.
-            </div>
-          </div>
-          <div class="book_footer">
-            <div class="book_price">200</div>
-            <button class="buy_book">Купить</button>
-          </div>
-        </div>
-
-        <div class="single-category_wrapper">
-          <div class="book_image">
-            <img src="../../assets/images/3.jpg"/>
-          </div>
-          <div class="book_info_wrapper">
-            <div class="book_name">
-              Супер книга
-            </div>
-            <div class="book_author">
-              Автор А. В.
-            </div>
-          </div>
-          <div class="book_footer">
-            <div class="book_price">200</div>
-            <button class="buy_book">Купить</button>
-          </div>
-        </div>
-
-        <div class="single-category_wrapper">
-          <div class="book_image">
-            <img src="../../assets/images/3.jpg"/>
-          </div>
-          <div class="book_info_wrapper">
-            <div class="book_name">
-              Супер книга
-            </div>
-            <div class="book_author">
-              Автор А. В.
-            </div>
-          </div>
-          <div class="book_footer">
-            <div class="book_price">200</div>
-            <button class="buy_book">Купить</button>
-          </div>
-        </div>
-
-
-        <div class="single-category_wrapper">
-          <div class="book_image">
-            <img src="../../assets/images/3.jpg"/>
-          </div>
-          <div class="book_info_wrapper">
-            <div class="book_name">
-              Супер книга
-            </div>
-            <div class="book_author">
-              Автор А. В.
+              {{book.getAuthorName()}}
             </div>
           </div>
           <div class="book_footer">

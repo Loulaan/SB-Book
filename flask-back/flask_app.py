@@ -1,11 +1,14 @@
 from flask import Flask, request, redirect, url_for, jsonify
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 from dao.elastic_search_DAO import search,save
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/smart_search",methods=['POST'])
+@cross_origin()
 def smart_search():
     search_query = request.get_json()['query']
     return jsonify(search(search_query))
