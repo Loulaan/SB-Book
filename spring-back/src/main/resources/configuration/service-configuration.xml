@@ -41,6 +41,10 @@
         <property name="jwtHeaderPrefix" value="${jwt.header.prefix}"/>
     </bean>
 
+    <bean class="service.implementation.BookServiceImpl">
+        <constructor-arg ref="booksRepository"/>
+    </bean>
+
     <bean class="security.jwt.service.implementation.JwtUserDetailsService" id="jwtUserDetailsService">
         <constructor-arg ref="userService"/>
     </bean>
