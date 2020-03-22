@@ -14,7 +14,7 @@ import { CartComponent } from './cart/cart.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { BookComponent } from './book/book.component';
 import { CartIconComponent } from './cart-icon/cart-icon.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatchResultComponent } from './match-result/match-result.component';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -38,7 +38,8 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

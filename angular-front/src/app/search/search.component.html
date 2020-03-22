@@ -1,4 +1,4 @@
 <div class="search traditional_flow">
-  <input type="text" placeholder="Искать здесь...">
-  <button type="submit">Найти</button>
+  <input name="search" [(ngModel)]="query" type="text" placeholder="Искать здесь...">
+  <button type="button" (click)="onSearch()">Найти</button>
 </div>

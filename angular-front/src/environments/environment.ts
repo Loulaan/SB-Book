@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SMART_SEARCH: 'http://localhost:5000/smart_search',
+  API_URL: 'http://localhost:8080/api/v1',
 };
 
 /*

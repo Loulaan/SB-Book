@@ -1,0 +1,46 @@
+@import '../../assets/styles/variables';
+
+.single_book_wrapper {
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.single_book-picture {
+  img{
+    height: 300px;
+    width: 200px;
+  }
+}
+
+.single_book_info {
+  margin-left: 50px;
+
+  .single_book_description {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.price_info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 50%;
+
+  .single_book_buy {
+    button {
+      background-color: @Blue;
+      color: @White;
+      border-radius: 5px;
+      width: 100px;
+      height: 40px;
+    }
+  }
+
+  .single_book_price {
+    font-size: 50px;
+  }
+}
