@@ -17,6 +17,7 @@ import { CartIconComponent } from './cart-icon/cart-icon.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatchResultComponent } from './match-result/match-result.component';
 import {HttpClientModule} from '@angular/common/http';
+import { TextQuestionsComponent } from './text-questions/text-questions.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {HttpClientModule} from '@angular/common/http';
     SearchResultComponent,
     BookComponent,
     CartIconComponent,
-    MatchResultComponent
+    MatchResultComponent,
+    TextQuestionsComponent
   ],
   imports: [
     BrowserModule,

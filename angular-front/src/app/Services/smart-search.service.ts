@@ -44,4 +44,8 @@ export class SmartSearchService {
     return this.http.get<IBookSearch>(`${this.API_URL}/books/random`).pipe(
       tap(result => this.simpleSearchSubject$.next(result.bookList)));
   }
+
+  public getAnswer(param) {
+    return this.http.post(`http://localhost:5050/chat`, param);
+  }
 }
