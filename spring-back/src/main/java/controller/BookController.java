@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import service.BookService;
 
 import java.io.IOException;
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -19,9 +18,9 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PostMapping(value = "/search?option={searchOption}")
-    public ResponseEntity<List<Book>> searchBooks(@PathVariable String searchOption, @RequestBody String query) {
-        return ResponseEntity.ok(bookService.searchBook(searchOption, query));
+    @GetMapping(value = "/search")
+    public ResponseEntity<RandomBooksResponseDTO> searchBooks(@RequestParam("query") String query) {
+        return ResponseEntity.ok(bookService.searchBook(query));
     }
 
     @GetMapping(value = "/{id}")

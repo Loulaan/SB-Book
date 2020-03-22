@@ -14,7 +14,6 @@ import service.BookService;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,25 +29,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> searchBook(String searchOption, String query) {
-        List<Book> bookCollection = null;
-        switch (searchOption) {
-            case "author": {
-                bookCollection = (ArrayList<Book>) booksRepository.findAllByAuthor(query);
-                break;
-            }
-            case "title": {
-                bookCollection = (ArrayList<Book>) booksRepository.findAllByTitle(query);
-                break;
-            }
-            case "publishingHouse": {
-                bookCollection = (ArrayList<Book>) booksRepository.findAllByPublishingHouse(query);
-                break;
-            }
-            default:
-                throw new ApiException();
+    public RandomBooksResponseDTO searchBook(String query) {
+
+        List<Book> bookCollection = (ArrayList<Book>) booksRepository.findAllByAuthor(query);
+
+        if (bookCollection.isEmpty()) {
+            bookCollection = (ArrayList<Book>) booksRepository.findByTitle(query);
         }
-        return bookCollection;
+
+        if (bookCollection.isEmpty()) {
+            bookCollection = (ArrayList<Book>) booksRepository.findAllByPublishingHouse(query);
+        }
+
+        return new RandomBooksResponseDTO(bookCollection);
     }
 
     @Transactional

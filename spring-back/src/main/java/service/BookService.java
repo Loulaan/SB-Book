@@ -11,7 +11,7 @@ public interface BookService {
 
     Book getInformationAboutBook(Long id);
 
-    List<Book> searchBook(String searchOption, String query);
+    RandomBooksResponseDTO searchBook(String query);
 
     void saveBook(BookUploadWrapper request) throws IOException;
 
