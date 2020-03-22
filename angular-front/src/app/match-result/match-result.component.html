@@ -15,7 +15,7 @@
 
       <div class="categories_flex_wrapper">
         <div class="single-category_wrapper" *ngFor="let book of bookArray">
-          <div class="book_image">
+          <div class="book_image" (click)="onClick()">
             <img src="../../assets/images/3.jpg"/>
           </div>
           <div class="book_info_wrapper">

@@ -30,76 +30,21 @@
         <h1>Новинки</h1>
       </div>
 
-      <div class="categories_flex_wrapper">
-        <div class="single-category_wrapper">
-         <div class="book_image">
-           <img src="../../assets/images/3.jpg"/>
+      <div class="categories_flex_wrapper" >
+        <div class="single-category_wrapper" *ngFor="let book of books">
+         <div class="book_image" (click)="onBookClick(book.id)">
+           <img [src]="'../../assets/images/'+ book.imageUrl"/>
          </div>
           <div class="book_info_wrapper">
           <div class="book_name">
-            Супер книга
+          {{book.title}}
           </div>
           <div class="book_author">
-            Автор А. В.
+          {{book.author}}
           </div>
           </div>
           <div class="book_footer">
-            <div class="book_price">200</div>
-            <button class="buy_book">Купить</button>
-          </div>
-        </div>
-
-        <div class="single-category_wrapper">
-          <div class="book_image">
-            <img src="../../assets/images/3.jpg"/>
-          </div>
-          <div class="book_info_wrapper">
-            <div class="book_name">
-              Супер книга
-            </div>
-            <div class="book_author">
-              Автор А. В.
-            </div>
-          </div>
-          <div class="book_footer">
-            <div class="book_price">200</div>
-            <button class="buy_book">Купить</button>
-          </div>
-        </div>
-
-        <div class="single-category_wrapper">
-          <div class="book_image">
-            <img src="../../assets/images/3.jpg"/>
-          </div>
-          <div class="book_info_wrapper">
-            <div class="book_name">
-              Супер книга
-            </div>
-            <div class="book_author">
-              Автор А. В.
-            </div>
-          </div>
-          <div class="book_footer">
-            <div class="book_price">200</div>
-            <button class="buy_book">Купить</button>
-          </div>
-        </div>
-
-
-        <div class="single-category_wrapper">
-          <div class="book_image">
-            <img src="../../assets/images/3.jpg"/>
-          </div>
-          <div class="book_info_wrapper">
-            <div class="book_name">
-              Супер книга
-            </div>
-            <div class="book_author">
-              Автор А. В.
-            </div>
-          </div>
-          <div class="book_footer">
-            <div class="book_price">200</div>
+            <div class="book_price">{{book.price}}</div>
             <button class="buy_book">Купить</button>
           </div>
         </div>
