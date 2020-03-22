@@ -1,25 +1,26 @@
 import warnings
 from collections import Counter
 import re
-from datetime import datetime
 import numpy as np
 
 
-#from deeppavlov import build_model, configs
-#from nltk.tokenize import word_tokenize
-#import numpy as np
-#import pandas as pd
-#from gensim.summarization import summarize
-#import pymorphy2
+from deeppavlov import build_model, configs
+from nltk.tokenize import word_tokenize
+import numpy as np
+import pandas as pd
+from gensim.summarization import summarize
+import pymorphy2
 
-from YTranslater import wrapper_translater
-from tags_model import predict
+from .YTranslater import wrapper_translater
+from .tags_model import *
 
 
 warnings.filterwarnings("ignore")
-#morph = pymorphy2.MorphAnalyzer()
+morph = pymorphy2.MorphAnalyzer()
+CLF, TFIDF = load_models()
 PATHSUMM = 'books/summDemo.txt'
-# path = 'books/Demo.txt'
+PATH = 'books/NadPropastyuVoRzhi.txt'
+path = 'books/Demo.txt'
 
 
 def tokenize_text(text):
@@ -85,7 +86,7 @@ def get_top_names_and_locations(df):
         else:
             break
     list_of_top.append(top_places)
-    return list_of_top
+    return list_of_top[0], list_of_top[1]
 
 
 def summarizer(text):
@@ -113,11 +114,10 @@ def clean_text(text):
     text = text.strip(' ')
     return text
 
-def get_genres(text, clf, tfidf):
+def get_genres(text, clf=CLF, tfidf=TFIDF):
     en_text = wrapper_translater(text)
     processed_en_text = clean_text(en_text)
-    preds = np.array(predict([processed_en_text], clf, tfidf)).squeeze()
-    return preds
+    return list(predict([processed_en_text], clf, tfidf))
 
 
 def create_dataframe(preds):
@@ -161,7 +161,7 @@ def buildmodel(model_name):
     return model
 
 
-def get_all_statistics(path,model_name="NER"):
+def get_all_statistics(path=PATH, model_name="NER"):
     """
     Returns list of top 10 names, top 10 places and summary of text
     """
@@ -169,7 +169,6 @@ def get_all_statistics(path,model_name="NER"):
     model = buildmodel(model_name)
     statistics = []
     df = pd.DataFrame()
-    start_time = datetime.now()
     with open(path, encoding='utf-8') as file:
         text = file.read()
         split_regex = re.compile(r'[.|!|?|…]')
@@ -177,17 +176,22 @@ def get_all_statistics(path,model_name="NER"):
         for s in sentences:
             preds = model([tokenize_text(s)])
             df = pd.concat([df, lemmanization(throw_O_class(create_dataframe(preds)))], ignore_index=True)
-        print(datetime.now() - start_time, " : Обработка предложений (Лемманизация и избавление от О).")
         df = bounding_classes(df)
-        print(datetime.now() - start_time, " : Обработка датафрейма (Объединение классов).")
         summary = summarizer(text)
         statistics.append(get_genres(summary))
-        statistics.append(get_top_names_and_locations(df))
+        top_persons, top_places = get_top_names_and_locations(df)
+        statistics.append(top_persons)
+        statistics.append(top_places)
         statistics.append(summary)
-        print(datetime.now() - start_time, " : Генерация summary.")
         save_summary(statistics[-1])
-        print("Statistic[0][0] - genre:\n", statistics[0][0])
-        print("\n\nStatistic[0][1] - top 5 persons:\n", statistics[0][1])
-        print("\n\nStatistic[0][2] - top 5 places:\n", statistics[0][2])
+        print("Statistic[0] - genre:\n", statistics[0])
+        print("\n\nStatistic[1] - top 5 persons:\n", statistics[1])
+        print("\n\nStatistic[2] - top 5 places:\n", statistics[2])
 
     return statistics
+
+
+def answers_questions(text, model_name="SQUAD"):
+    model = buildmodel(model_name)
+    answer = model([text])
+    return answer
