@@ -1,0 +1,37 @@
+<app-header-manu></app-header-manu>
+<div class="main_patch-center blue"></div>
+<div class="result_wrapper">
+  <div class="match_form">
+    <div class="textarea_container">
+    <app-text-field></app-text-field>
+      </div>
+    </div>
+  </div>
+  <div class="matches_wrapper">
+    <div class="categories_wrapper">
+      <div id="top_books_header">
+        <h1>Результат</h1>
+      </div>
+
+      <div class="categories_flex_wrapper">
+        <div class="single-category_wrapper" *ngFor="let book of bookArray">
+          <div class="book_image">
+            <img src="../../assets/images/3.jpg"/>
+          </div>
+          <div class="book_info_wrapper">
+            <div class="book_name">
+              {{book._source.title}}
+            </div>
+            <div class="book_author">
+              {{book.getAuthorName()}}
+            </div>
+          </div>
+          <div class="book_footer">
+            <div class="book_price">200</div>
+            <button class="buy_book">Купить</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

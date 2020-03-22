@@ -14,7 +14,6 @@ import pymorphy2
 
 warnings.filterwarnings("ignore")
 morph = pymorphy2.MorphAnalyzer()
-PATH = 'books/NadPropastyuVoRzhi.txt'
 PATHSUMM = 'books/summDemo.txt'
 # path = 'books/Demo.txt'
 
@@ -141,7 +140,7 @@ def buildmodel(model_name):
     return model
 
 
-def get_all_statistics(model_name="NER"):
+def get_all_statistics(path,model_name="NER"):
     """
     Returns list of top 10 names, top 10 places and summary of text
     """
@@ -150,7 +149,7 @@ def get_all_statistics(model_name="NER"):
     statistics = []
     df = pd.DataFrame()
     start_time = datetime.now()
-    with open(PATH, encoding='utf-8') as file:
+    with open(path, encoding='utf-8') as file:
         text = file.read()
         split_regex = re.compile(r'[.|!|?|…]')
         sentences = filter(lambda t: t, [t.strip() for t in split_regex.split(text)])

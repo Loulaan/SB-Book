@@ -6,6 +6,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <security:http pattern="/**/login" security="none"/>
+    <security:http pattern="/**/books/**" security="none"/>
+    <security:http pattern="/**/smart_search" security="none"/>
     <security:http pattern="/**/registration" security="none"/>
     <security:http pattern="/**/refresh_token" security="none"/>
     <security:http pattern="/**/confirm_email" security="none"/>
@@ -37,7 +39,6 @@
             <security:filter-chain filters="filterExceptionsInFilterChain" pattern="/**"/>
         </security:filter-chain-map>
     </bean>
-
 
     <bean class="security.jwt.JwtAuthorizationFilter" id="jwtTokenFilter">
         <constructor-arg ref="jwtTokenProvider"/>

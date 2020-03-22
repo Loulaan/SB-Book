@@ -7,6 +7,7 @@ import {SingInComponent} from './sing-in/sing-in.component';
 import {SingUpComponent} from './sing-up/sing-up.component';
 import {CartComponent} from './cart/cart.component';
 import {PersonalPageComponent} from './personal-page/personal-page.component';
+import {MatchResultComponent} from "./match-result/match-result.component";
 
 
 const routes: Routes = [
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'personal',
     component: PersonalPageComponent,
+  },
+  {
+    path: 'match',
+    component: MatchResultComponent,
   }
 ];
 

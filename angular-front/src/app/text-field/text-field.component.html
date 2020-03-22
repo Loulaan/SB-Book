@@ -1,6 +1,13 @@
+<form [formGroup]="form">
+  <div class="textarea_inner">
 <div class="textarea-container">
-  <div class="label"><h5>Интеллектуальный поиск</h5></div>
-<textarea class="textarea" placeholder="Вы можете ввести ваши предпочтения, пожелания, интересы в книгах, а так же
+
+      <div class="label" [ngClass]="{open_label: animated }" (click)="animation()"><h5>Интеллектуальный поиск</h5></div>
+<textarea #textAreaElement class="textarea" formControlName="query" [ngClass]="{open: animated}" [value]="textAreaValue?textAreaValue:''" placeholder="Вы можете ввести ваши предпочтения, пожелания, интересы в книгах, а так же
 желаемый сюжет, временной промежуток или описать героев, о которых хотите почитать.">
 </textarea>
+
 </div>
+    <button type="submit" (click)="sendQuery()" class="button_in_textarea" [hidden]="!animated">Найти</button>
+  </div>
+</form>
