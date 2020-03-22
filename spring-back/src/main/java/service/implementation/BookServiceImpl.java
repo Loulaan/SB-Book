@@ -31,10 +31,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public RandomBooksResponseDTO searchBook(String query) {
 
-        List<Book> bookCollection = (ArrayList<Book>) booksRepository.findAllByAuthor(query);
+        List<Book> bookCollection = (ArrayList<Book>) booksRepository.findByTitle(query);
 
         if (bookCollection.isEmpty()) {
-            bookCollection = (ArrayList<Book>) booksRepository.findByTitle(query);
+            bookCollection = (ArrayList<Book>) booksRepository.findAllByAuthor(query);
         }
 
         if (bookCollection.isEmpty()) {
