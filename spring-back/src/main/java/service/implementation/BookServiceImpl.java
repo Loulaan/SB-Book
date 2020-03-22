@@ -59,7 +59,7 @@ public class BookServiceImpl implements BookService {
     public void saveBook(HttpServletRequest request, SaveBookRequestDTO data) throws IOException {
         Book newBook = new Book();
         BeanUtils.copyProperties(data, newBook);
-        String path = "src/main/resources/images/" + newBook.getTitle();
+        String path = "src/main/resources/images/war_peace" + newBook.getTitle();
         Files.readAllBytes(Paths.get(path));
         newBook.setImageUrl(path);
     }

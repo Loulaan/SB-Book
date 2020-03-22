@@ -23,16 +23,6 @@ public class BookController {
         return ResponseEntity.ok(bookService.searchBook(searchOption, query));
     }
 
-//    @PostMapping(value = "/add_to_card/{id}")
-//    public void addToCard(@PathVariable Long id) {
-//
-//    }
-//
-//    @DeleteMapping(value = "/add_to_card/{id}")
-//    public void removeFromCard(@PathVariable Long id) {
-//
-//    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Book> getInfoAboutBook(@PathVariable Long id) {
         return ResponseEntity.ok(bookService.getInformationAboutBook(id));
