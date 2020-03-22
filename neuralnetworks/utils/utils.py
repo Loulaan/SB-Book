@@ -2,18 +2,22 @@ import warnings
 from collections import Counter
 import re
 from datetime import datetime
-
-
-from deeppavlov import build_model, configs
-from nltk.tokenize import word_tokenize
 import numpy as np
-import pandas as pd
-from gensim.summarization import summarize
-import pymorphy2
+
+
+#from deeppavlov import build_model, configs
+#from nltk.tokenize import word_tokenize
+#import numpy as np
+#import pandas as pd
+#from gensim.summarization import summarize
+#import pymorphy2
+
+from YTranslater import wrapper_translater
+from tags_model import predict
 
 
 warnings.filterwarnings("ignore")
-morph = pymorphy2.MorphAnalyzer()
+#morph = pymorphy2.MorphAnalyzer()
 PATHSUMM = 'books/summDemo.txt'
 # path = 'books/Demo.txt'
 
@@ -94,6 +98,27 @@ def summarizer(text):
 
     return summarize(text, word_count=400, split=False)
 
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r"what's", "what is ", text)
+    text = re.sub(r"\'s", " ", text)
+    text = re.sub(r"\'ve", " have ", text)
+    text = re.sub(r"can't", "can not ", text)
+    text = re.sub(r"n't", " not ", text)
+    text = re.sub(r"i'm", "i am ", text)
+    text = re.sub(r"\'re", " are ", text)
+    text = re.sub(r"\'d", " would ", text)
+    text = re.sub(r"\'ll", " will ", text)
+    text = re.sub(r"\'scuse", " excuse ", text)
+    text = text.strip(' ')
+    return text
+
+def get_genres(text, clf, tfidf):
+    en_text = wrapper_translater(text)
+    processed_en_text = clean_text(en_text)
+    preds = np.array(predict([processed_en_text], clf, tfidf)).squeeze()
+    return preds
+
 
 def create_dataframe(preds):
     """
@@ -155,11 +180,14 @@ def get_all_statistics(path,model_name="NER"):
         print(datetime.now() - start_time, " : Обработка предложений (Лемманизация и избавление от О).")
         df = bounding_classes(df)
         print(datetime.now() - start_time, " : Обработка датафрейма (Объединение классов).")
+        summary = summarizer(text)
+        statistics.append(get_genres(summary))
         statistics.append(get_top_names_and_locations(df))
-        statistics.append(summarizer(text))
+        statistics.append(summary)
         print(datetime.now() - start_time, " : Генерация summary.")
         save_summary(statistics[-1])
-        print("Statistic[0][0]:\n", statistics[0][0])
-        print("\n\nStatistic[0][1]:\n", statistics[0][1])
+        print("Statistic[0][0] - genre:\n", statistics[0][0])
+        print("\n\nStatistic[0][1] - top 5 persons:\n", statistics[0][1])
+        print("\n\nStatistic[0][2] - top 5 places:\n", statistics[0][2])
 
     return statistics
