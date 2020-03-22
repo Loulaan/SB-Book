@@ -1,6 +1,6 @@
 import pickle
 
-def load_models(nb_path = "weights/naivebayes.pkl", tfidf_path = "weights/tfidf.pkl"):
+def load_models(nb_path = "../weights/naivebayes.pkl", tfidf_path = "../weights/tfidf.pkl"):
     with open(nb_path, 'rb') as f:
         clf = pickle.load(f)
     with open(tfidf_path, 'rb') as f:

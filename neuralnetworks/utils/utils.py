@@ -11,8 +11,8 @@ import pandas as pd
 from gensim.summarization import summarize
 import pymorphy2
 
-from .YTranslater import wrapper_translater
-from .tags_model import *
+from YTranslater import wrapper_translater
+from tags_model import *
 
 
 warnings.filterwarnings("ignore")
@@ -161,7 +161,7 @@ def buildmodel(model_name):
     return model
 
 
-def get_all_statistics(path=PATH, model_name="NER"):
+def get_all_statistics(path, model_name="NER"):
     """
     Returns list of top 10 names, top 10 places and summary of text
     """
@@ -183,10 +183,6 @@ def get_all_statistics(path=PATH, model_name="NER"):
         statistics.append(top_persons)
         statistics.append(top_places)
         statistics.append(summary)
-        save_summary(statistics[-1])
-        print("Statistic[0] - genre:\n", statistics[0])
-        print("\n\nStatistic[1] - top 5 persons:\n", statistics[1])
-        print("\n\nStatistic[2] - top 5 places:\n", statistics[2])
 
     return statistics
 

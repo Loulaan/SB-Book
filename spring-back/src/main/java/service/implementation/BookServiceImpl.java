@@ -44,6 +44,13 @@ public class BookServiceImpl implements BookService {
         return new RandomBooksResponseDTO(bookCollection);
     }
 
+    @Override
+    public RandomBooksResponseDTO getAll() {
+        List<Book> books = booksRepository.findAll();
+        Collections.shuffle(books);
+        return new RandomBooksResponseDTO(books.subList(0, 4));
+    }
+
     @Transactional
     @Override
     public void saveBook(BookUploadWrapper request) throws IOException {
@@ -53,12 +60,5 @@ public class BookServiceImpl implements BookService {
         for (CommonsMultipartFile file : request.getFiles()) {
             String path = "src/main/resources/images/" + newBook.getTitle();
         }
-    }
-
-    @Override
-    public RandomBooksResponseDTO getAll() {
-        List<Book> books = booksRepository.findAll();
-        Collections.shuffle(books);
-        return new RandomBooksResponseDTO(books.subList(0, 4));
     }
 }
