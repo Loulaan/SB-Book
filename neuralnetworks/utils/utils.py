@@ -21,6 +21,8 @@ CLF, TFIDF = load_models()
 PATHSUMM = 'books/summDemo.txt'
 PATH = 'books/NadPropastyuVoRzhi.txt'
 path = 'books/Demo.txt'
+ner_model = build_model(configs.ner.ner_rus, download=True)
+
 
 
 def tokenize_text(text):
@@ -143,30 +145,13 @@ def save_summary(text):
         file.write(text)
 
 
-def buildmodel(model_name):
-    """
-    Ключи для сетей
-    'ner' - анализ и нахождения сущностей, мест и организаций.
-    'sentiment' - сентиментальный анализ текста.
-    'squad' - ответ на вопрос по тексту.
-    """
-
-    model = None
-    if model_name == 'NER':
-        model = build_model(configs.ner.ner_rus, download=True)
-    elif model_name == 'SENTIMENT':
-        model = build_model(configs.classifiers.rusentiment_convers_bert, download=True)
-    elif model_name == 'SQUAD':
-        model = build_model(configs.squad.squad_ru_bert_infer, download=True)
-    return model
 
 
-def get_all_statistics(path, model_name="NER"):
+def get_all_statistics(path,ner_model = ner_model):
     """
     Returns list of top 10 names, top 10 places and summary of text
     """
 
-    model = buildmodel(model_name)
     statistics = []
     df = pd.DataFrame()
     with open(path, encoding='utf-8') as file:
@@ -174,7 +159,7 @@ def get_all_statistics(path, model_name="NER"):
         split_regex = re.compile(r'[.|!|?|…]')
         sentences = filter(lambda t: t, [t.strip() for t in split_regex.split(text)])
         for s in sentences:
-            preds = model([tokenize_text(s)])
+            preds = ner_model([tokenize_text(s)])
             df = pd.concat([df, lemmanization(throw_O_class(create_dataframe(preds)))], ignore_index=True)
         df = bounding_classes(df)
         summary = summarizer(text)
@@ -185,9 +170,3 @@ def get_all_statistics(path, model_name="NER"):
         statistics.append(summary)
 
     return statistics
-
-
-def answers_questions(text, model_name="SQUAD"):
-    model = buildmodel(model_name)
-    answer = model([text])
-    return answer
