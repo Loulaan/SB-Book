@@ -155,4 +155,31 @@
                                  referencedTableName="users"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet id="1.0.9" author="hronosf@gmail.com">
+        <createTable tableName="books">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="image_url" type="VARCHAR(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="title" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="publishing_house" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>

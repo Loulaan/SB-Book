@@ -46,9 +46,7 @@ public class User extends BaseModel {
 
     @Column(name = "enabled", nullable = false)
     private boolean isEnabled;
-
-
-
+    
     public User(RegistrationRequestDTO userDTO) {
         BeanUtils.copyProperties(userDTO, this);
     }
