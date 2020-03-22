@@ -1,5 +1,6 @@
 package controller;
 
+import dto.payload.response.RandomBooksResponseDTO;
 import lombok.RequiredArgsConstructor;
 import model.BookUploadWrapper;
 import model.entity.Book;
@@ -7,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.BookService;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,5 +32,10 @@ public class BookController {
     @PostMapping(value = "/upload", consumes = {"multipart/form-data"})
     public void uploadBook(@ModelAttribute("file") BookUploadWrapper request) throws IOException {
         bookService.saveBook(request);
+    }
+
+    @GetMapping(value = "/random")
+    public ResponseEntity<RandomBooksResponseDTO> getRandomFourBooks() {
+        return ResponseEntity.ok(bookService.getAll());
     }
 }

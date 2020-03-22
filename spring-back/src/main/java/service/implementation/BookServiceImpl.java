@@ -1,5 +1,6 @@
 package service.implementation;
 
+import dto.payload.response.RandomBooksResponseDTO;
 import exception.ApiException.ApiException;
 import lombok.RequiredArgsConstructor;
 import model.BookUploadWrapper;
@@ -13,6 +14,8 @@ import service.BookService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -59,6 +62,10 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-
-
+    @Override
+    public RandomBooksResponseDTO getAll() {
+        List<Book> books = booksRepository.findAll();
+        Collections.shuffle(books);
+        return new RandomBooksResponseDTO(books.subList(0, 4));
+    }
 }
