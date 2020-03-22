@@ -1,13 +1,13 @@
 package controller;
 
-import dto.payload.request.SaveBookRequestDTO;
 import lombok.RequiredArgsConstructor;
+import model.BookUploadWrapper;
 import model.entity.Book;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.BookService;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,8 +29,8 @@ public class BookController {
         return ResponseEntity.ok(bookService.getInformationAboutBook(id));
     }
 
-    @PostMapping(value = "/upload")
-    public void uploadBook(HttpServletRequest request, @RequestBody SaveBookRequestDTO data) throws IOException {
-        bookService.saveBook(request, data);
+    @PostMapping(value = "/upload", consumes = {"multipart/form-data"})
+    public void uploadBook(@ModelAttribute("file") BookUploadWrapper request) throws IOException {
+        bookService.saveBook(request);
     }
 }

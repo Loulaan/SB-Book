@@ -1,22 +1,19 @@
 package service.implementation;
 
-import dto.payload.request.SaveBookRequestDTO;
 import exception.ApiException.ApiException;
 import lombok.RequiredArgsConstructor;
+import model.BookUploadWrapper;
 import model.entity.Book;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import repository.BooksRepository;
 import service.BookService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,12 +50,15 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void saveBook(HttpServletRequest request, SaveBookRequestDTO data) throws IOException {
+    public void saveBook(BookUploadWrapper request) throws IOException {
         Book newBook = new Book();
-        BeanUtils.copyProperties(data, newBook);
-        String path = "src/main/resources/images/" + newBook.getTitle();
-        Files.readAllBytes(Paths.get(path));
-        newBook.setImageUrl(path);
+        BeanUtils.copyProperties(request, newBook);
+
+        for (CommonsMultipartFile file : request.getFiles()) {
+            String path = "src/main/resources/images/" + newBook.getTitle();
+        }
     }
+
+
 
 }

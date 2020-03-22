@@ -26,11 +26,11 @@
                 <constraints unique="true" nullable="false"/>
             </column>
 
-            <column name="first_name" type="VARCHAR(100)">
+            <column name="first_name" type="NVARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="last_name" type="VARCHAR(100)">
+            <column name="last_name" type="NVARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
 
@@ -161,29 +161,29 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="image_url" type="VARCHAR(256)">
+            <column name="image_url" type="NVARCHAR(256)">
                 <constraints nullable="true"/>
             </column>
-            <column name="title" type="VARCHAR(256)">
+            <column name="title" type="NVARCHAR(256)">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="TEXT">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="VARCHAR(50)">
+            <column name="price" type="NVARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="author" type="VARCHAR(256)">
+            <column name="author" type="NVARCHAR(256)">
                 <constraints nullable="false"/>
             </column>
-            <column name="publishing_house" type="VARCHAR(256)">
+            <column name="publishing_house" type="NVARCHAR(256)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
     <changeSet id="1.10.0" author="hronosf@gmail.com">
-        <sqlFile path="/sql/Script.sql" encoding="windows-1251"/>
+        <sqlFile path="/sql/Script.sql"/>
     </changeSet>
 
 </databaseChangeLog>
