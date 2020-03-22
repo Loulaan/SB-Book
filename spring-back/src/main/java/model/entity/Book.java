@@ -1,16 +1,17 @@
 package model.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "books")
-@EqualsAndHashCode(callSuper = true)
-public class Book extends BaseModel {
+public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "image_url")
     private String imageUrl;

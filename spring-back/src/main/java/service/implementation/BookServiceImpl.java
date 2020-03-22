@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +26,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getInformationAboutBook(Long id) {
-        Book book = booksRepository.getOne(id);
-        if (book == null) {
-            throw new ApiException();
-        }
-        return book;
+        return booksRepository.findById(id).orElseThrow(ApiException::new);
     }
 
     @Override
@@ -59,7 +56,7 @@ public class BookServiceImpl implements BookService {
     public void saveBook(HttpServletRequest request, SaveBookRequestDTO data) throws IOException {
         Book newBook = new Book();
         BeanUtils.copyProperties(data, newBook);
-        String path = "src/main/resources/images/war_peace" + newBook.getTitle();
+        String path = "src/main/resources/images/" + newBook.getTitle();
         Files.readAllBytes(Paths.get(path));
         newBook.setImageUrl(path);
     }

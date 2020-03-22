@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "api/v1/users/")
