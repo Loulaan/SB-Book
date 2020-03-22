@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {AuthService} from "../Services/auth.service";
 
 @Component({
   selector: 'app-header-manu',
@@ -8,10 +9,21 @@ import {Component, Input, OnInit} from '@angular/core';
 export class HeaderMenuComponent implements OnInit {
   @Input() isDarkPage = false;
   public showMain = true;
+  public userName: string;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.userName.subscribe((name) => {
+      if (name !== '') {
+        this.userName = name;
+      } else {
+        this.userName = undefined;
+      }
+    });
   }
 
+  logout() {
+    this.authService.logout();
+  }
 }

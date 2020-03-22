@@ -3,15 +3,15 @@
 <div class="main_patch-right"></div>
 <div class="sign_up_wrapper">
   <div class="sign_up_header">
-    <h1>Регистрация</h1>
+    <h1>Вход</h1>
   </div>
   <div class="form_wrapper">
     <form [formGroup]="form" class="sign_up_form">
       <div class="input_wrapper">
-        <input name="name" formControlName="userName" class="sign_up_input" placeholder="Логин"/>
+        <input name="name" formControlName="username" class="sign_up_input" placeholder="Логин"/>
         <input name="password" formControlName="password" class="sign_up_input" placeholder="Пароль"/>
         <div class="button_wrapper">
-          <button type="submit">Войти</button>
+          <button type="submit" (click)="onClick()" >Войти</button>
         </div>
       </div>
     </form>

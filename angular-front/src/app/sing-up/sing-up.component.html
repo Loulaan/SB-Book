@@ -3,6 +3,7 @@
 <div class="main_patch-right"></div>
 <div class="sign_up_wrapper">
 
+  <ng-container *ngIf="step === 1">
   <div class="sign_up_header">
     <h1>Регистрация</h1>
   </div>
@@ -15,9 +16,17 @@
       <input  name="email" formControlName="email" class="sign_up_input" placeholder="Email"/>
       <input name="password" formControlName="password" class="sign_up_input" placeholder="Пароль"/>
         <div class="button_wrapper">
-        <button type="submit">Зарегистрироваться</button>
+        <button type="submit" (click)="onReg()">Зарегистрироваться</button>
         </div>
       </div>
     </form>
   </div>
+  </ng-container>
+
+  <ng-container *ngIf = 'step === 2'>
+    <div class="sign_up_header">
+      <h1>Успешно!</h1>
+      <h2>Вы успешно зарегистировались! Проверьте почту и подтвердите свой адрес.</h2>
+    </div>
+  </ng-container>
 </div>

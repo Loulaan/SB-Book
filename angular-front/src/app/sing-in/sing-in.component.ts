@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
+import {AuthService} from '../Services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sing-in',
@@ -9,11 +11,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class SingInComponent implements OnInit {
   public form: FormGroup;
 
-  constructor() { this.form = new FormGroup({
-    email: new FormControl(''),
-    userName: new FormControl(''),
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
+  constructor(private authService: AuthService, private router: Router) { this.form = new FormGroup({
+    username: new FormControl(''),
     password: new FormControl(''),
   });
   }
@@ -21,4 +20,7 @@ export class SingInComponent implements OnInit {
   ngOnInit() {
   }
 
+  public onClick() {
+    this.authService.login(this.form.value).subscribe((response) => this.router.navigate(['/']));
+  }
 }
