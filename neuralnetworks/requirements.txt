@@ -117,7 +117,7 @@ tornado==6.0.4
 tqdm==4.41.1
 traitlets==4.3.3
 urllib3==1.25.8
-uvicorn==0.11.1
+uvicorn==0.11.7
 wcwidth==0.1.8
 webencodings==0.5.1
 websockets==8.1
