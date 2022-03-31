@@ -11,7 +11,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring.fraemwork.version>4.3.0.RELEASE</spring.fraemwork.version>
+        <spring.fraemwork.version>5.3.18</spring.fraemwork.version>
         <spring.fraemwork.security.version>4.2.0.RELEASE</spring.fraemwork.security.version>
         <maven.compile.plugin>3.8.1</maven.compile.plugin>
         <hibernate.version>4.3.11.Final</hibernate.version>
