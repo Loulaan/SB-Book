@@ -14,7 +14,7 @@
         <spring.fraemwork.version>4.3.0.RELEASE</spring.fraemwork.version>
         <spring.fraemwork.security.version>4.2.0.RELEASE</spring.fraemwork.security.version>
         <maven.compile.plugin>3.8.1</maven.compile.plugin>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <hibernate.version>5.3.20.Final</hibernate.version>
     </properties>
 
 
